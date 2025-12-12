@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Student Marks Analyzer - Apache Spark
 
 A comprehensive student marks analysis system built with Apache Spark that analyzes student performance across multiple subjects.
@@ -210,3 +211,7 @@ Created as a demonstration of Apache Spark for student data analysis.
 ---
 
 **Note**: This is a sample project for learning Apache Spark. The data is randomly generated for demonstration purposes.
+=======
+# Spark2
+website
+>>>>>>> f8d47ea10c3fd48cf60049fb0848e30d652e0829
