@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎓 Student Marks Analyzer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            --secondary-gradient: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            --accent-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --dark-gradient: linear-gradient(135deg, #4b6cb7 0%, #182848 100%);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 2.5rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .header h1 {
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header .lead {
+            font-weight: 300;
+            opacity: 0.9;
+        }
+        
+        .card {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            border-radius: 15px;
+            border: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            background: white;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            font-weight: 600;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 1.25rem 1.5rem;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .stat-icon {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            color: white;
+        }
+        
+        .icon-purple { background: var(--primary-gradient); }
+        .icon-pink { background: var(--secondary-gradient); }
+        .icon-green { background: var(--accent-gradient); }
+        .icon-blue { background: var(--dark-gradient); }
+        
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+        
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .table th {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .progress {
+            height: 12px;
+            border-radius: 10px;
+        }
+        
+        .progress-bar {
+            border-radius: 10px;
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: white;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin: 0 auto 1.5rem;
+        }
+        
+        .feature-card {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            height: 100%;
+        }
+        
+        .feature-card h5 {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .feature-card p {
+            color: #7f8c8d;
+        }
+        
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(37, 117, 252, 0.3);
+        }
+        
+        .btn-primary:hover {
+            box-shadow: 0 6px 16px rgba(37, 117, 252, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .form-check-input:checked {
+            background-color: #6a11cb;
+            border-color: #6a11cb;
+        }
+        
+        .badge {
+            font-weight: 500;
+            padding: 0.5em 0.75em;
+        }
+        
+        footer {
+            background: var(--dark-gradient);
+            color: white;
+            padding: 2rem 0;
+            margin-top: 3rem;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .result-section {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .engine-option {
+            padding: 1.25rem;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+        
+        .engine-option:hover {
+            border-color: #6a11cb;
+            background-color: rgba(106, 17, 203, 0.03);
+        }
+        
+        .engine-option.active {
+            border-color: #6a11cb;
+            background-color: rgba(106, 17, 203, 0.05);
+        }
+        
+        .dataset-option {
+            padding: 1rem;
+            border-radius: 12px;
+            border: 2px solid #e9ecef;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+        
+        .dataset-option:hover {
+            border-color: #2575fc;
+            background-color: rgba(37, 117, 252, 0.03);
+        }
+        
+        .dataset-option.active {
+            border-color: #2575fc;
+            background-color: rgba(37, 117, 252, 0.05);
+        }
+        
+        .loading-spinner {
+            width: 2rem;
+            height: 2rem;
+            border-width: 0.25em;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h1><i class="fas fa-graduation-cap me-3"></i>Student Marks Analyzer</h1>
+                    <p class="lead">Comprehensive analysis of student academic performance with beautiful visualizations</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-cogs me-2"></i>Analysis Configuration</h5>
+                    </div>
+                    <div class="card-body">
+                        <form id="analysisForm">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold mb-3">Analysis Engine:</label>
+                                    <div class="engine-option active" data-engine="pandas">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="analysis_type" id="pandas_option" value="pandas" checked>
+                                            <label class="form-check-label d-flex align-items-center" for="pandas_option">
+                                                <div class="me-3">
+                                                    <i class="fas fa-bolt fa-2x text-primary"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-1">Pandas Engine</h6>
+                                                    <p class="mb-0 text-muted">Fast processing without Java requirements</p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    {% if spark_available %}
+                                    <div class="engine-option" data-engine="spark">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="analysis_type" id="spark_option" value="spark">
+                                            <label class="form-check-label d-flex align-items-center" for="spark_option">
+                                                <div class="me-3">
+                                                    <i class="fas fa-server fa-2x text-info"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-1">Apache Spark Engine</h6>
+                                                    <p class="mb-0 text-muted">Enterprise-grade big data processing</p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    {% else %}
+                                    <div class="engine-option disabled">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="analysis_type" id="spark_option" value="spark" disabled>
+                                            <label class="form-check-label d-flex align-items-center" for="spark_option">
+                                                <div class="me-3">
+                                                    <i class="fas fa-server fa-2x text-secondary"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-1">Apache Spark Engine</h6>
+                                                    <p class="mb-0 text-muted">Requires Java installation</p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold mb-3">Dataset Size:</label>
+                                    <div class="dataset-option active" data-size="100">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="dataset_size" id="size_100" value="100" checked>
+                                            <label class="form-check-label d-flex align-items-center" for="size_100">
+                                                <div class="me-3">
+                                                    <i class="fas fa-users fa-2x text-success"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-1">100 Students</h6>
+                                                    <p class="mb-0 text-muted">Standard dataset for quick analysis</p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="dataset-option" data-size="200">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="dataset_size" id="size_200" value="200">
+                                            <label class="form-check-label d-flex align-items-center" for="size_200">
+                                                <div class="me-3">
+                                                    <i class="fas fa-users fa-2x text-warning"></i>
+                                                </div>
+                                                <div>
+                                                    <h6 class="mb-1">200 Students</h6>
+                                                    <p class="mb-0 text-muted">Extended dataset for detailed insights</p>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="mt-4 d-grid">
+                                        <button type="submit" class="btn btn-primary btn-lg" id="analyzeBtn">
+                                            <span id="analyzeText"><i class="fas fa-chart-line me-2"></i>Run Analysis</span>
+                                            <span id="analyzeSpinner" class="spinner-border spinner-border-sm loading-spinner d-none" role="status"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="resultsSection" class="d-none result-section">
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert" id="successMessage">
+                        Analysis completed successfully!
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                    <div class="alert alert-danger d-none alert-dismissible fade show" role="alert" id="errorMessage">
+                        Error occurred during analysis.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="row mb-4" id="statsRow">
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-purple">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-number" id="totalStudents">0</div>
+                        <div class="stat-label">Total Students</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-pink">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="stat-number" id="topScore">0</div>
+                        <div class="stat-label">Highest Score</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-green">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-number" id="avgScore">0</div>
+                        <div class="stat-label">Average Score</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon icon-blue">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div class="stat-number" id="aPlusCount">0</div>
+                        <div class="stat-label">A+ Students</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Performers -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-award me-2"></i>Top 10 Performers</h5>
+                        </div>
+                        <div class="card-body table-container">
+                            <table class="table table-striped table-hover" id="topPerformersTable">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Student ID</th>
+                                        <th>Name</th>
+                                        <th>Total Marks</th>
+                                        <th>Percentage</th>
+                                        <th>Grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="topPerformersBody">
+                                    <!-- Data will be populated here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subject Statistics -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-book me-2"></i>Subject-wise Statistics</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row" id="subjectStatsRow">
+                                <!-- Subject cards will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grade Distribution -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0"><i class="fas fa-chart-pie me-2"></i>Grade Distribution</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row" id="gradeDistributionRow">
+                                <!-- Grade distribution will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0"><i class="fas fa-star me-2"></i>Amazing Features</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="feature-card">
+                                    <div class="feature-icon text-primary">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                    <h5>Performance Metrics</h5>
+                                    <p class="text-muted">Calculate total marks, percentages, and grades with precision</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="feature-card">
+                                    <div class="feature-icon text-success">
+                                        <i class="fas fa-crown"></i>
+                                    </div>
+                                    <h5>Top Performers</h5>
+                                    <p class="text-muted">Identify and rank highest-scoring students instantly</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="feature-card">
+                                    <div class="feature-icon text-info">
+                                        <i class="fas fa-flask"></i>
+                                    </div>
+                                    <h5>Subject Analysis</h5>
+                                    <p class="text-muted">Detailed statistics for each subject with visual insights</p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="feature-card">
+                                    <div class="feature-icon text-warning">
+                                        <i class="fas fa-project-diagram"></i>
+                                    </div>
+                                    <h5>Grade Distribution</h5>
+                                    <p class="text-muted">Visualize academic performance spread with progress bars</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <p class="mb-0"><i class="fas fa-graduation-cap me-2"></i>Student Marks Analyzer &copy; 2023 | Powered by Python, Flask, and Apache Spark</p>
+                    <p class="mb-0 mt-2 text-muted"><small>Built with ❤️ for educational analytics</small></p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Engine selection
+            $('.engine-option').on('click', function() {
+                $('.engine-option').removeClass('active');
+                $(this).addClass('active');
+                const engine = $(this).data('engine');
+                $(`input[name="analysis_type"][value="${engine}"]`).prop('checked', true);
+            });
+            
+            // Dataset selection
+            $('.dataset-option').on('click', function() {
+                $('.dataset-option').removeClass('active');
+                $(this).addClass('active');
+                const size = $(this).data('size');
+                $(`input[name="dataset_size"][value="${size}"]`).prop('checked', true);
+            });
+            
+            $('#analysisForm').on('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                $('#analyzeText').addClass('d-none');
+                $('#analyzeSpinner').removeClass('d-none');
+                $('#analyzeBtn').prop('disabled', true);
+                
+                // Hide previous results
+                $('#resultsSection').addClass('d-none');
+                $('#errorMessage').addClass('d-none');
+                
+                // Submit form via AJAX
+                $.ajax({
+                    url: '/analyze',
+                    method: 'POST',
+                    data: $(this).serialize(),
+                    success: function(response) {
+                        // Reset button state
+                        $('#analyzeText').removeClass('d-none');
+                        $('#analyzeSpinner').addClass('d-none');
+                        $('#analyzeBtn').prop('disabled', false);
+                        
+                        if (response.success) {
+                            // Show success message
+                            $('#successMessage').text(response.message);
+                            
+                            // Populate statistics
+                            populateStatistics(response);
+                            
+                            // Populate top performers
+                            populateTopPerformers(response.top_performers);
+                            
+                            // Populate subject statistics
+                            populateSubjectStats(response.subject_stats);
+                            
+                            // Populate grade distribution
+                            populateGradeDistribution(response.grade_distribution);
+                            
+                            // Show results section
+                            $('#resultsSection').removeClass('d-none');
+                            
+                            // Scroll to results
+                            $('html, body').animate({
+                                scrollTop: $("#resultsSection").offset().top - 100
+                            }, 500);
+                        } else {
+                            // Show error message
+                            $('#errorMessage').text(response.message).removeClass('d-none');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Reset button state
+                        $('#analyzeText').removeClass('d-none');
+                        $('#analyzeSpinner').addClass('d-none');
+                        $('#analyzeBtn').prop('disabled', false);
+                        
+                        // Show error message
+                        $('#errorMessage').text('An error occurred while processing your request.').removeClass('d-none');
+                    }
+                });
+            });
+            
+            function populateStatistics(data) {
+                // Update total students
+                $('#totalStudents').text(data.total_students || '0');
+                
+                // For simplicity, we'll extract some basic stats from the data
+                if (data.top_performers && data.top_performers.length > 0) {
+                    $('#topScore').text(data.top_performers[0].Total_Marks || '0');
+                    $('#avgScore').text(Math.round((data.top_performers.reduce((sum, student) => sum + (student.Percentage || 0), 0) / data.top_performers.length) * 100) / 100 || '0');
+                    
+                    // Count A+ students (simplified)
+                    const aPlusCount = data.top_performers.filter(student => student.Grade === 'A+').length;
+                    $('#aPlusCount').text(aPlusCount);
+                }
+            }
+            
+            function populateTopPerformers(performers) {
+                const tbody = $('#topPerformersBody');
+                tbody.empty();
+                
+                performers.forEach((student, index) => {
+                    const row = `
+                        <tr>
+                            <td><span class="badge bg-primary">${index + 1}</span></td>
+                            <td>${student.Student_ID || ''}</td>
+                            <td>${student.Name || ''}</td>
+                            <td><strong>${student.Total_Marks || ''}</strong></td>
+                            <td>${student.Percentage ? student.Percentage + '%' : ''}</td>
+                            <td><span class="badge bg-${getGradeColor(student.Grade)}">${student.Grade || ''}</span></td>
+                        </tr>
+                    `;
+                    tbody.append(row);
+                });
+            }
+            
+            function getGradeColor(grade) {
+                switch(grade) {
+                    case 'A+': return 'success';
+                    case 'A': return 'primary';
+                    case 'B': return 'info';
+                    case 'C': return 'warning';
+                    case 'D': return 'secondary';
+                    default: return 'danger';
+                }
+            }
+            
+            function populateSubjectStats(stats) {
+                const container = $('#subjectStatsRow');
+                container.empty();
+                
+                Object.keys(stats).forEach(subject => {
+                    const subjectData = stats[subject];
+                    const card = `
+                        <div class="col-md-2 mb-3">
+                            <div class="card h-100">
+                                <div class="card-body text-center">
+                                    <h6 class="card-title">${subject}</h6>
+                                    <div class="my-3">
+                                        <div class="stat-number text-primary">${subjectData.average ? subjectData.average.toFixed(1) : '0'}</div>
+                                        <div class="text-muted">Average</div>
+                                    </div>
+                                    <p class="card-text small">
+                                        <span class="text-success"><i class="fas fa-arrow-up"></i> ${subjectData.maximum || '0'}</span> |
+                                        <span class="text-danger"><i class="fas fa-arrow-down"></i> ${subjectData.minimum || '0'}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.append(card);
+                });
+            }
+            
+            function populateGradeDistribution(distribution) {
+                const container = $('#gradeDistributionRow');
+                container.empty();
+                
+                Object.keys(distribution).forEach(grade => {
+                    const gradeData = distribution[grade];
+                    const percentage = gradeData.percentage || 0;
+                    const count = gradeData.count || 0;
+                    
+                    const bar = `
+                        <div class="col-md-3 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        ${grade} 
+                                        <span class="float-end badge bg-${getGradeColor(grade)}">${percentage}%</span>
+                                    </h6>
+                                    <div class="progress mb-2">
+                                        <div class="progress-bar bg-${getGradeColor(grade)}" role="progressbar" 
+                                             style="width: ${percentage}%" aria-valuenow="${percentage}" 
+                                             aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <small class="text-muted">${count} students</small>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.append(bar);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
